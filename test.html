@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <label>User ID</label>
+    <input type="text" id="userID">
+    <br><br>
+    
+    <label>Username</label>
+    <input type="text" id="username">
+    <br><br>
+    
+    <label>Email</label>
+    <input type="text" id="email">
+    <br><br>
+    
+    <label>Password</label>
+    <input type="text" id="pass">
+    <br><br>
+
+    <label>First Name</label>
+    <input type="text" id="fname">
+    <br><br>
+
+    <label>Last Name</label>
+    <input type="text" id="lname">
+    <br><br>
+    
+    <label>Contact No</label>
+    <input type="number" id="phone">
+    <br><br>
+
+    <label>Status</label>
+    <input type="text" id="status">
+    <br><br>
+
+    <button id="AddBtn">ADD</button>
+
+    <script type="module">
+        
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+        
+        const firebaseConfig = {
+          apiKey: "AIzaSyAeyFovsEKBn-38pzPlFbvFmd8G89YigcA",
+          authDomain: "glaucotalk-7a1e4.firebaseapp.com",
+          databaseURL: "https://glaucotalk-7a1e4-default-rtdb.firebaseio.com",
+          projectId: "glaucotalk-7a1e4",
+          storageBucket: "glaucotalk-7a1e4.appspot.com",
+          messagingSenderId: "922236931698",
+          appId: "1:922236931698:web:2206bebb86d435901b7ceb",
+          measurementId: "G-SL2047QQXZ"
+        };
+      
+        
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+
+        import{getDatabase, ref, child, get, set, update, remove} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        const db = getDatabase();
+
+        let userID = document.getElementById('userID');
+        let Username = document.getElementById('username');
+        let Email = document.getElementById('email');
+        let Pass = document.getElementById('pass');
+        let Fname = document.getElementById('fname');
+        let Lname = document.getElementById('lname');
+        let Phone = document.getElementById('phone');
+        let Status = document.getElementById('status');
+
+        let AddBtn = document.getElementById('AddBtn');
+
+        function AddData(){
+            set(ref(db, 'UserTable/' + userID.value),{
+                username: Username.value,
+                email: Email.value,
+                pass: Pass.value,
+                firstname: Fname.value,
+                lastname: Lname.value,
+                contact: Number(Phone.value),
+                Status: Status.value
+            }),then(()=>{
+                alert("Data Added Successfully");
+            }).catch(()=>{
+                console.log(error);
+            })
+        }
+
+        AddBtn.addEventListener('click', AddData);
+      </script>
+</body>
+</html>
