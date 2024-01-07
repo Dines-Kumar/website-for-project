@@ -58,6 +58,7 @@ footer{
         <th>Rating</th>
         <th>Date Time</th>
         <th>Comment</th>
+        <th>Delete</th>
       </thead>
       <tbody id="tbody1"></tbody>
     </table>
@@ -86,6 +87,7 @@ footer{
     let td3 = document.createElement('td');
     let td4 = document.createElement('td');
     let td5 = document.createElement('td');
+    let td7 = document.createElement('td');
 
     td0.innerHTML = No;
 
@@ -98,6 +100,19 @@ footer{
     td4.innerHTML = date.toLocaleString();
 
 
+    let rowToUpdate;
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+    trow.addEventListener("click", (event) => {
+  if (event.target.textContent === "Delete") {
+    rowToUpdate = event.target.closest("tr"); // Capture the row to update
+    handleDeleteButtonClick(userID);
+  }
+});
+
+    td7.appendChild(deleteButton);
+
+
     td5.innerHTML = comment;
 
     trow.appendChild(td0);
@@ -106,6 +121,7 @@ footer{
     trow.appendChild(td3);
     trow.appendChild(td4);
     trow.appendChild(td5);
+    trow.appendChild(td7);
 
     tbody.appendChild(trow);
   }
@@ -120,7 +136,7 @@ footer{
 
   // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getFirestore, collection, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  import { getFirestore, collection, getDocs, onSnapshot, doc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
@@ -142,7 +158,25 @@ footer{
   const analytics = getAnalytics(app);
   const db = getFirestore(app);
 
+  async function handleDeleteButtonClick(userID) {
+  try {
+    // Update the status to 0 in Firestore instead of deleting the document
+    const feedbacksCollection = collection(db, "feedbacks");
 
+    // Use doc(feedbacksCollection, userID) to get a reference to the document
+    const feedbackDoc = doc(feedbacksCollection, userID);
+
+    // Update the status to 0
+    await updateDoc(feedbackDoc, { status: 0 });
+    if (rowToUpdate) {
+      const statusCell = rowToUpdate.querySelector("td:nth-child(3)");
+      statusCell.innerHTML = 0; // Update the status cell in the table
+    }
+    console.log("Status updated to 0!");
+  } catch (error) {
+    console.error("Error updating status: ", error);
+  }
+}
 
   
 
