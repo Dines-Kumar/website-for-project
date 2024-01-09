@@ -43,7 +43,7 @@ footer{
       <div class="w3-right w3-hide-small">
         <a href="user.html" class="w3-bar-item w3-button">User</a>
         <a href="feedback.html" class="w3-bar-item w3-button">Feedback</a>
-        <<a href="signout.html" class="w3-bar-item w3-button">Logout</a>>
+        <a id="logout" class="w3-bar-item w3-button">Logout</a>
         
       </div>
     </div>
@@ -75,13 +75,13 @@ footer{
 
 <!-- End page content -->
 </div>
-
+<br>
+<br>
+<br>
 <!-- Footer -->
 <footer class="w3-center w3-light-grey w3-padding-16">
   <p>copyright &copy; 2023, GlaucoTalk</p>
 </footer>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/json2csv/6.2.2/json2csv.umd.min.js"></script>
-<script src="jspdf.min.js"></script>
 <script type="module">
   var No = 0;
   var tbody = document.getElementById('tbody1');
@@ -136,6 +136,7 @@ footer{
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
   import { getFirestore, collection, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+  import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
   
   
@@ -154,6 +155,23 @@ footer{
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
   const db = getFirestore(app);
+
+  function signOutUser() {
+    const auth = getAuth();
+    signOut(auth)
+      .then(() => {
+        console.log('User signed out');
+        // Redirect or perform any actions after sign-out if needed
+        location.replace("signIn.html");
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
+  }
+
+  // Event listener for the "Logout" link
+  document.getElementById('logout').addEventListener('click', signOutUser);
+
 
   async function GetAllDataOnce() {
   try {

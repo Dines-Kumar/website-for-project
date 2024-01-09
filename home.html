@@ -48,7 +48,7 @@ footer{
     <div class="w3-right w3-hide-small">
       <a href="user.html" class="w3-bar-item w3-button">User</a>
       <a href="feedback.html" class="w3-bar-item w3-button">Feedback</a>
-      <a href="report.html" class="w3-bar-item w3-button">Logout</a>
+      <a id="logout" class="w3-bar-item w3-button">Logout</a>
       
     </div>
   </div>
@@ -79,6 +79,7 @@ footer{
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
   import { getFirestore, collection, getDocs} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+  import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -98,6 +99,22 @@ footer{
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
   const db = getFirestore(app);
+
+  function signOutUser() {
+    const auth = getAuth();
+    signOut(auth)
+      .then(() => {
+        console.log('User signed out');
+        // Redirect or perform any actions after sign-out if needed
+        location.replace("signIn.html");
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
+  }
+
+  // Event listener for the "Logout" link
+  document.getElementById('logout').addEventListener('click', signOutUser);
 
   async function getTotalUsers() {
     try {
