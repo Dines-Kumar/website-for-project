@@ -113,8 +113,19 @@ footer{
       });
   }
 
-  // Event listener for the "Logout" link
-  document.getElementById('logout').addEventListener('click', signOutUser);
+  function handleSession() {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in
+        console.log('User is signed in:', user.uid);
+      } else {
+        // No user is signed in, redirect to sign-in page
+        console.log('No user is signed in');
+        window.location.assign('signIn.html');
+      }
+    });
+  }
 
   async function getTotalUsers() {
     try {
@@ -127,8 +138,14 @@ footer{
       // Consider how to handle this error on the frontend
     }
   }
-
-  window.onload = getTotalUsers;
+  window.onload = () => {
+    handleSession();
+    getTotalUsers();
+  }
+  
+  // Event listener for the "Logout" link
+  document.getElementById('logout').addEventListener('click', () => {
+    signOutUser();
 </script>
 
 </body>

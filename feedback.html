@@ -55,7 +55,7 @@ footer{
   <br>
   <!-- About Section -->
   <div class="w3-row w3-padding-64" id="about">
-    <button id="excelBtn">Export Excel</button>
+    
     <br/>
     <table id="feedbackTable" class="table table-hover">
       <thead>
@@ -70,7 +70,7 @@ footer{
       </thead>
       <tbody id="tbody1"></tbody>
     </table>
-
+    <button id="excelBtn">Export Excel</button>
   </div>
 
 <!-- End page content -->
@@ -187,9 +187,20 @@ footer{
       });
   }
 
-  // Event listener for the "Logout" link
-  document.getElementById('logout').addEventListener('click', signOutUser);
-
+  function handleSession() {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in
+        console.log('User is signed in:', user.uid);
+      } else {
+        // No user is signed in, redirect to sign-in page
+        console.log('No user is signed in');
+        window.location.assign('signIn.html');
+      }
+    });
+  }
+  
   async function handleUpdateButtonClick(feedbackID) {
   try {
     const feedbacksCollection = collection(db, "feedbacks");
@@ -239,7 +250,14 @@ function GetAllDataRealTime() {
   });
 }
 
-  window.onload = GetAllDataOnce;
+window.onload = () => {
+    handleSession();
+    GetAllDataOnce();
+  }
+
+  // Event listener for the "Logout" link
+  document.getElementById('logout').addEventListener('click', () => {
+    signOutUser();
 </script>
 
 <script> 
