@@ -60,7 +60,7 @@ footer{
 <br>
   <!-- About section -->
   <div class="w3-row w3-padding-64" id="about">
-    <button id="excelBtn">Export Excel</button>
+    
     <br/>
     <table id="dts" class="table table-hover">
       <thead>
@@ -76,7 +76,7 @@ footer{
       <tbody id="tbody1"></tbody>
     </table>
   </div>
-
+  <button id="excelBtn">Export Excel</button>
 <!-- End page content -->
 </div>
 <br>
@@ -141,7 +141,7 @@ footer{
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
   import { getFirestore, collection, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
-  import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
   
   
@@ -260,9 +260,6 @@ footer{
   });
   
 
-</script>
-
-<script> 
   $(document).ready(function() {
       // Define the export function
       function exportTableToExcel() {
@@ -297,7 +294,10 @@ footer{
         exportTableToExcel();
       });
     });
-</script> 
+
+</script>
+
+
 
 </body>
 </html>
