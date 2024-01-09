@@ -223,7 +223,7 @@ async function GetAllDataOnce() {
 }
 
 function GetAllDataRealTime() {
-  const unsub = onSnapshot(collection(db, "feedbacks"), (querySnapshot) => {
+  const unsub = onSnapshot(query(collection(db, "feedbacks"), where("status", "==", 1)), (querySnapshot) => {
     var data = [];
     querySnapshot.forEach((doc) => {
       let docData = doc.data();
